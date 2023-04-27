@@ -3,10 +3,7 @@ import {
 	Component,
 	EventEmitter,
 	Input,
-	OnChanges,
-	OnInit,
 	Output,
-	SimpleChanges,
 } from '@angular/core';
 import {IProduct} from '../../../shared/products/product.interface';
 
@@ -20,16 +17,6 @@ export class CardComponent {
 	@Input() product: IProduct | undefined;
 
 	@Output() buy = new EventEmitter<IProduct['_id']>();
-
-	// ngOnInit(): void {
-	// 	console.log('CardComponent Init');
-	// }
-
-	// ngOnChanges({product}: SimpleChanges): void {
-	// 	// if (product) {
-	// 	// 	console.log('CardComponent Changes', this.product?._id);
-	// 	// }
-	// }
 
 	onProductBuy(event: Event) {
 		event.stopPropagation();

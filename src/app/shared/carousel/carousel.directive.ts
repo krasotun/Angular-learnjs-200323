@@ -8,8 +8,8 @@ import {
 	TemplateRef,
 	ViewContainerRef,
 } from '@angular/core';
+import {BehaviorSubject, Subject, filter, map, takeUntil} from 'rxjs';
 import {ICarouselContext} from './carousel-context.interface';
-import {BehaviorSubject, Subject, Subscription, filter, map, takeUntil} from 'rxjs';
 
 @Directive({
 	selector: '[appCarousel]',
@@ -36,7 +36,6 @@ export class CarouselDirective<T> implements OnInit, OnChanges, OnDestroy {
 	}
 
 	ngOnDestroy(): void {
-		// this.currentIndexChangeSubscription.unsubscribe();
 		this.destroy$.next();
 		this.destroy$.complete();
 	}
