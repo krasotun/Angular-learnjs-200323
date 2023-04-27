@@ -20,15 +20,8 @@ export class ProductsListComponent implements OnInit {
 	constructor(private readonly changeDetectorRef: ChangeDetectorRef) {}
 
 	ngOnInit() {
-		setTimeout(() => {
-			this.products = productsMock;
-			this.changeDetectorRef.markForCheck();
-		}, 3000);
-
-		setTimeout(() => {
-			this.products = productsMock.map(item => ({...item, rating: 5}));
-			this.changeDetectorRef.markForCheck();
-		}, 6000);
+		this.products = productsMock;
+		this.changeDetectorRef.markForCheck();
 	}
 
 	onLoad(event: LoadDirection) {

@@ -5,7 +5,7 @@
 	min-height: 0;
 }
 
-.scroll-container {
+.container {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
@@ -18,8 +18,4 @@
 
 .card {
 	margin: 10px;
-}
-
-.loader {
-	margin: auto;
 }
