@@ -1,10 +1,20 @@
-<div class="container">
+<div class="cards">
 	<!-- Для применения пагинации. chank - массив отображаемых элементов -->
-	<!-- <ng-container *appPagination="let chank of productsFromContext; chankSize: 4"> -->
+	<!-- <ng-container *appPagination> -->
 	<app-card
 		*ngFor="let product of products; trackBy: trackById; let index = index"
 		class="card"
 		[product]="product"
 		(buy)="onBuy($event)"
 	></app-card>
+	<div class="pagination">
+		<button mat-icon-button>
+			<mat-icon>chevron_left</mat-icon>
+		</button>
+
+		<button mat-icon-button>
+			<mat-icon>chevron_right</mat-icon>
+		</button>
+	</div>
+	<!-- </ng-container> -->
 </div>
