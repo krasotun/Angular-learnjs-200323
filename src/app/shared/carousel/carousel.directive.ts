@@ -15,10 +15,11 @@ import {ICarouselContext} from './carousel-context.interface';
 	selector: '[appCarousel]',
 })
 export class CarouselDirective<T> implements OnInit, OnChanges, OnDestroy {
-	@Input() appCarouselOf: T[] | undefined | null;
+	@Input()
+	appCarouselOf: T[] | undefined | null;
 
-	private readonly currentIndex$ = new BehaviorSubject<number>(0);
-	private readonly destroy$ = new Subject<void>();
+	private readonly currentIndexSubject$ = new BehaviorSubject<number>(0);
+	private readonly destroySubject$ = new Subject<boolean>();
 
 	constructor(
 		private readonly viewContainerRef: ViewContainerRef,
@@ -36,30 +37,26 @@ export class CarouselDirective<T> implements OnInit, OnChanges, OnDestroy {
 	}
 
 	ngOnDestroy(): void {
-		this.destroy$.next();
-		this.destroy$.complete();
+		this.destroySubject$.next(true);
+		this.destroySubject$.complete();
 	}
 
-	private updateView() {
+	private updateView(): void {
 		if (!this.appCarouselOf?.length) {
 			this.viewContainerRef.clear();
-
 			return;
 		}
-
-		this.currentIndex$.next(0);
+		this.currentIndexSubject$.next(0);
 	}
 
-	private listenCurrentIndexChange() {
-		this.currentIndex$
+	private listenCurrentIndexChange(): void {
+		this.currentIndexSubject$
 			.pipe(
 				map(currentIndex => this.getCurrentContext(currentIndex)),
 				filter(Boolean),
-				// filter(v => Boolean(v)),
-				takeUntil(this.destroy$),
+				takeUntil(this.destroySubject$),
 			)
 			.subscribe(context => {
-				console.log('insert', context);
 				this.viewContainerRef.clear();
 				this.viewContainerRef.createEmbeddedView(this.templateRef, context);
 			});
@@ -69,12 +66,10 @@ export class CarouselDirective<T> implements OnInit, OnChanges, OnDestroy {
 		if (!this.appCarouselOf) {
 			return null;
 		}
-
 		return {
 			$implicit: this.appCarouselOf[currentIndex],
 			index: currentIndex,
 			appCarouselOf: this.appCarouselOf,
-			// next: this.next.bind(this),
 			next: () => {
 				this.next();
 			},
@@ -85,17 +80,17 @@ export class CarouselDirective<T> implements OnInit, OnChanges, OnDestroy {
 	}
 
 	private next() {
-		const nextIndex = this.currentIndex$.value + 1;
+		const nextIndex = this.currentIndexSubject$.value + 1;
 		const newIndex = nextIndex < (this.appCarouselOf as T[]).length ? nextIndex : 0;
 
-		this.currentIndex$.next(newIndex);
+		this.currentIndexSubject$.next(newIndex);
 	}
 
 	private back() {
-		const previousIndex = this.currentIndex$.value - 1;
+		const previousIndex = this.currentIndexSubject$.value - 1;
 		const newIndex =
 			previousIndex >= 0 ? previousIndex : (this.appCarouselOf as T[]).length - 1;
 
-		this.currentIndex$.next(newIndex);
+		this.currentIndexSubject$.next(newIndex);
 	}
 }
