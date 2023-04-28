@@ -3,6 +3,13 @@
 		<mat-card-title>{{ product?.name }}</mat-card-title>
 		<mat-card-subtitle>{{ product?.price }} $</mat-card-subtitle>
 	</mat-card-header>
+	<!-- <ng-template
+		appCarousel
+		let-img
+		let-next="next"
+		let-back="back"
+		[appCarouselOf]="product?.images"
+	> -->
 	<div
 		*appCarousel="let img of product?.images; let next = next; let back = back"
 		class="galerey"
@@ -15,6 +22,8 @@
 			<mat-icon>chevron_right</mat-icon>
 		</button>
 	</div>
+	<!-- </ng-template> -->
+
 	<mat-card-content>
 		<p>Отзывы: {{ product?.feedbacksCount }}</p>
 		<div class="raiting">
