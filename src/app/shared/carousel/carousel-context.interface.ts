@@ -1,7 +1,8 @@
 export interface ICarouselContext<T> {
 	$implicit: T;
-	index: number;
+	img: T;
 	appCarouselOf: T[];
+	index: number;
 	next: () => void;
 	back: () => void;
 }

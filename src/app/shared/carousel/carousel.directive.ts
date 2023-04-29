@@ -68,6 +68,7 @@ export class CarouselDirective<T> implements OnInit, OnChanges, OnDestroy {
 		}
 		return {
 			$implicit: this.appCarouselOf[currentIndex],
+			img: this.appCarouselOf[currentIndex],
 			index: currentIndex,
 			appCarouselOf: this.appCarouselOf,
 			next: () => {

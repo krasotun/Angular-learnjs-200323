@@ -11,7 +11,12 @@
 		[appCarouselOf]="product?.images"
 	> -->
 	<div
-		*appCarousel="let img of product?.images; let next = next; let back = back"
+		*appCarousel="
+			let img = img;
+			of: product?.images;
+			let next = next;
+			let back = back
+		"
 		class="galerey"
 	>
 		<button mat-icon-button (click)="back(); $event.stopPropagation()">
